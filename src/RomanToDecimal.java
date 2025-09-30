@@ -1,7 +1,6 @@
 //import libraries
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Converts roman numeral strings to their corresponding decimal integer.
@@ -93,7 +92,12 @@ public class RomanToDecimal {
                         return -1;
                     }
 
-                    if (i + 2 < roman.length() && Objects.equals(romanMap.get(roman.charAt(i)), romanMap.get(roman.charAt(i + 2)))) {
+                    if (i + 2 < roman.length() && romanMap.get(roman.charAt(i + 2)) >= romanMap.get(roman.charAt(i))) {
+                        return -1;
+                    }
+
+                    int subtractionResult = nextValue - value;
+                    if (prevValue != 0 && subtractionResult > prevValue) {
                         return -1;
                     }
 
@@ -126,10 +130,9 @@ public class RomanToDecimal {
      * @param args command line arguments, if needed
      */
     public static void main(String[] args) {
-        int decimal = 0;
 
         for (String s : args) {
-            decimal = romanToDecimal(s);
+            int decimal = romanToDecimal(s);
             System.out.println("Input: " + s + " => output: " + (decimal != -1 ? decimal : "invalid"));
         }
     }
